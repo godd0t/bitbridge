@@ -1,6 +1,6 @@
 [project]
 name = "BitBridge"
-version = "0.1.0"
+version = "0.0.1"
 description = "A modern Python interface to the Bitcoin Core RPC, offering both synchronous and asynchronous support."
 authors = [
     {name = "godd0t", email = "lirrishala@gmail.com"},

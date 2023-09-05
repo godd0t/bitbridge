@@ -13,7 +13,7 @@ BitBridge is a modern Python interface to the Bitcoin Core RPC. It provides a se
 ## Installation
 
 ```bash
-pip install bitbridge
+pip install BitBridge
 ```
 
 ## Quick Start

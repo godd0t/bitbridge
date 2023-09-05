@@ -35,4 +35,4 @@ print(best_block_hash)
 
 ## License
 
-[MIT License](LICENSE)
+[MIT License](https://github.com/godd0t/bitbridge/blob/main/LICENSE)

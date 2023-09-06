@@ -1,4 +1,4 @@
-from bitbridge.rpc_delegate import RpcDelegate
+from bitbridge.rpc.base_rpc import BaseRPC
 from bitbridge.utils.constants import (
     GET_BEST_BLOCK_HASH,
     GET_BLOCK,
@@ -6,9 +6,8 @@ from bitbridge.utils.constants import (
 )
 
 
-class BaseBlockchain:
-    def __init__(self, rpc_delegate: RpcDelegate):
-        self.rpc_delegate = rpc_delegate
+class BaseBlockchain(BaseRPC):
+    pass
 
 
 class BlockchainSync(BaseBlockchain):

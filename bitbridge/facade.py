@@ -1,4 +1,5 @@
 from bitbridge.rpc.blockchain import BlockchainSync, BlockchainAsync
+from bitbridge.rpc.wallet import WalletSync, WalletAsync
 from bitbridge.rpc.config import BitBridgeConfig
 from bitbridge.rpc_delegate import RpcDelegate
 from bitbridge.utils.enums import Mode
@@ -16,6 +17,7 @@ class BitBridgeFacade(BaseBitBridgeFacade):
         super().__init__(config)
         self.rpc_delegate = RpcDelegate(config, mode=Mode.SYNC)
         self.blockchain = BlockchainSync(self.rpc_delegate)
+        self.wallet = WalletSync(self.rpc_delegate)
 
 
 class AsyncBitBridgeFacade(BaseBitBridgeFacade):
@@ -23,3 +25,4 @@ class AsyncBitBridgeFacade(BaseBitBridgeFacade):
         super().__init__(config)
         self.rpc_delegate = RpcDelegate(config, mode=Mode.ASYNC)
         self.blockchain = BlockchainAsync(self.rpc_delegate)
+        self.wallet = WalletAsync(self.rpc_delegate)

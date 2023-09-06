@@ -49,10 +49,6 @@ allow-direct-references = true
 [tool.hatch.version]
 path = "bitbridge/__init__.py"
 
-[tool.hatch.build.targets.wheel]
-sources = ["bitbridge"]
-
-
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
 src = ["bitbridge"]

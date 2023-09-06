@@ -9,7 +9,7 @@ class RpcDelegate:
     def __init__(self, config: BitBridgeConfig, mode: Mode = Mode.SYNC):
         self.config = config
         self._initial_params = {"jsonrpc": "2.0"}
-        self._http_client = httpx.Client() if mode == Mode.SYNC else httpx.AsyncClient()
+        self._http_client = httpx.Client if mode == Mode.SYNC else httpx.AsyncClient
 
     def _get_auth(self):
         return httpx.BasicAuth(self.config.username, self.config.password)
@@ -22,7 +22,7 @@ class RpcDelegate:
     @handle_exceptions(httpx.HTTPError)
     def send_request(self, method: str, params: list | None = None):
         payload = self._construct_payload(method, params)
-        response = self._http_client.post(
+        response = self._http_client().post(
             self.config.url, json=payload, auth=self._get_auth()
         )
         response.raise_for_status()
@@ -31,7 +31,7 @@ class RpcDelegate:
     @async_handle_exceptions(httpx.HTTPError)
     async def send_request_async(self, method: str, params: list | None = None):
         payload = self._construct_payload(method, params)
-        async with self._http_client as client:
+        async with self._http_client() as client:
             response = await client.post(
                 self.config.url, json=payload, auth=self._get_auth()
             )

@@ -1,8 +1,16 @@
 import pytest
 from os import getenv
+
+from faker import Faker
+
 from bitbridge.rpc.config import BitBridgeConfig
 from bitbridge.rpc_delegate import RpcDelegate
 from bitbridge.utils.enums import Mode
+
+
+@pytest.fixture(scope="session")
+def fake():
+    return Faker()
 
 
 @pytest.fixture

@@ -25,7 +25,7 @@ class RpcDelegate:
         response = self._http_client().post(
             self.config.url, json=payload, auth=self._get_auth()
         )
-        response.raise_for_status()
+        # response.raise_for_status()
         return response.json()
 
     @async_handle_exceptions(httpx.HTTPError)
@@ -35,5 +35,5 @@ class RpcDelegate:
             response = await client.post(
                 self.config.url, json=payload, auth=self._get_auth()
             )
-            response.raise_for_status()
+            # response.raise_for_status()
             return response.json()

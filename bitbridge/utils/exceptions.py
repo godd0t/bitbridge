@@ -1,4 +1,3 @@
-from rich.traceback import Traceback
 from bitbridge.rpc.config import BitBridgeConfig
 
 
@@ -11,7 +10,7 @@ class BaseBitBridgeException(Exception):
 
     def display(self):
         """Display the error using Rich's console."""
-        BitBridgeConfig.console.print(Traceback())
+        # BitBridgeConfig.console.print(Traceback())
         BitBridgeConfig.console.print(self.message, style="bold red")
 
 

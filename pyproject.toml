@@ -12,6 +12,20 @@ requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
 dynamic = ["version"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/godd0t/bitbridge"
 
 [project.optional-dependencies]
 test = [

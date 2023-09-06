@@ -42,9 +42,9 @@ async def wallet_created_async(fake, wallet_async):
 
 
 @pytest.fixture
-async def generate_to_address_async(
-    generate_async, from_address_async, to_address_async
-):
+async def generate_to_address_async(generate_async, wallet_created_async):
+    from_address_async, to_address_async = wallet_created_async
+
     await generate_async.generate_to_address(101, from_address_async)
     await generate_async.generate_to_address(101, to_address_async)
 

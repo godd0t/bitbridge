@@ -28,9 +28,18 @@ def util_sync(rpc_delegate_sync):
 
 @pytest.fixture
 def wallet_created_sync(fake, wallet_sync):
-    response = wallet_sync.create_wallet(wallet_name=fake.word())
-    print(response)
-    return response.get("result")
+    wallet = wallet_sync.create_wallet(wallet_name=fake.word())
+    wallet_name = wallet.get("result").get("name")
+    from_address = wallet_sync.get_new_address(
+        label=fake.word(), append_to_url=wallet_name
+    )
+    to_address = wallet_sync.get_new_address(
+        label=fake.word(), append_to_url=wallet_name
+    )
+
+    from_address = from_address.get("result")
+    to_address = to_address.get("result")
+    return from_address, to_address
 
 
 @pytest.fixture
@@ -57,10 +66,9 @@ def transaction_sync(
     wallet_sync,
     raw_transaction_sync,
     wallet_created_sync,
-    from_address_sync,
-    to_address_sync,
     generate_to_address_sync,
 ):
+    from_address_sync, to_address_sync = wallet_created_sync
     amount = 0.00001
     unspent_txs = wallet_sync.list_unspent()
     inputs = [

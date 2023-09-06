@@ -21,11 +21,16 @@ class RpcDelegate:
         return {**self._initial_params, "method": method, "params": params}
 
     @handle_exceptions(exceptions=(httpx.HTTPError, RPCError))
-    def send_request(self, method: str, params: list | None = None):
+    def send_request(
+        self, method: str, params: list | None = None, append_to_url: str | None = None
+    ):
         payload = self._construct_payload(method, params)
+        if append_to_url is not None:
+            self.config.url = f"{self.config.url}/wallet/{append_to_url}"
         response = self._http_client().post(
             self.config.url, json=payload, auth=self._get_auth()
         )
+        print(self.config.url)
         response_content = response.json()
         # Check if the response contains an error
         if "error" in response_content and response_content["error"] is not None:
@@ -40,7 +45,6 @@ class RpcDelegate:
         async with self._http_client() as client:
             if append_to_url is not None:
                 self.config.url = f"{self.config.url}/wallet/{append_to_url}"
-                print(self.config.url)
             response = await client.post(
                 self.config.url, json=payload, auth=self._get_auth()
             )

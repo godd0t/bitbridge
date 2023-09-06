@@ -14,6 +14,12 @@ class BaseBitBridgeException(Exception):
         BitBridgeConfig.console.print(self.message, style="bold red")
 
 
+class RPCError(BaseBitBridgeException):
+    """Exception raised for errors in the RPC group."""
+
+    pass
+
+
 class ConfigurationError(BaseBitBridgeException):
     """Raised when there is an issue with the configuration."""
 

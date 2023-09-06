@@ -19,14 +19,34 @@ pip install BitBridge
 ## Quick Start
 
 ```python
-from bitbridge import BitBridgeFacade
+from bitbridge import BitBridgeFacade, BitBridgeConfig
 
 # Initialize the facade with your RPC server details
-bridge = BitBridgeFacade(url="http://127.0.0.1:8332", username="your_username", password="your_password")
+config = BitBridgeConfig(url="http://127.0.0.1:8332", username="your_username", password="your_password")
+bridge = BitBridgeFacade(config)
 
-# Fetch the best block hash
-best_block_hash = bridge.blockchain.get_best_block_hash()
-print(best_block_hash)
+def some_function():
+    # Fetch the best block hash
+    best_block_hash = bridge.blockchain.get_best_block_hash()
+    ...
+
+```
+
+### Or if you prefer an asynchronous approach:
+
+```python
+from bitbridge import AsyncBitBridgeFacade, BitBridgeConfig
+
+# Initialize the facade with your RPC server details
+config = BitBridgeConfig(url="http://127.0.0.1:8332", username="your_username", password="your_password")
+bridge = AsyncBitBridgeFacade(config)
+
+
+async def some_function():
+    # Fetch the best block hash
+    best_block_hash = await bridge.blockchain.get_best_block_hash()
+    ...
+
 ```
 
 ## Status

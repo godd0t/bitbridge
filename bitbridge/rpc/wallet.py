@@ -10,6 +10,8 @@ from bitbridge.utils.constants import (
     UNLOAD_WALLET,
     GET_WALLET_INFO,
     LIST_UNSPENT,
+    LIST_WALLETS,
+    LIST_WALLET_DIR,
     GET_BALANCE,
     GET_BALANCES,
     GET_TRANSACTION,
@@ -24,6 +26,12 @@ class BaseWallet(BaseRPC):
 class WalletSync(BaseWallet):
     def abandon_transaction(self, txid: str):
         return self.rpc_delegate.send_request(ABANDON_TRANSACTION, [txid])
+
+    def list_wallets(self):
+        return self.rpc_delegate.send_request(LIST_WALLETS)
+
+    def list_wallet_dir(self):
+        return self.rpc_delegate.send_request(LIST_WALLET_DIR)
 
     def abort_rescan(self):
         return self.rpc_delegate.send_request(ABORT_RESCAN)
@@ -125,6 +133,12 @@ class WalletAsync(BaseWallet):
     async def abandon_transaction(self, txid: str):
         return await self.rpc_delegate.send_request_async(ABANDON_TRANSACTION, [txid])
 
+    async def list_wallets(self):
+        return await self.rpc_delegate.send_request_async(LIST_WALLETS)
+
+    async def list_wallet_dir(self):
+        return await self.rpc_delegate.send_request_async(LIST_WALLET_DIR)
+
     async def abort_rescan(self):
         return await self.rpc_delegate.send_request_async(ABORT_RESCAN)
 
@@ -133,9 +147,11 @@ class WalletAsync(BaseWallet):
             ADD_MULTISIG_ADDRESS, [nrequired, keys, label]
         )
 
-    async def get_new_address(self, label: str = None, address_type: str = None):
+    async def get_new_address(
+        self, label: str = None, address_type: str = None, append_to_url: str = None
+    ):
         return await self.rpc_delegate.send_request_async(
-            GET_NEW_ADDRESS, [label, address_type]
+            GET_NEW_ADDRESS, [label, address_type], append_to_url=append_to_url
         )
 
     async def get_wallet_info(self):

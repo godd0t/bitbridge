@@ -28,21 +28,17 @@ def util_async(rpc_delegate_async):
 
 @pytest.fixture
 async def wallet_created_async(fake, wallet_async):
-    response = await wallet_async.create_wallet(wallet_name=fake.word())
-    return response.get("result")
-
-
-@pytest.fixture
-async def from_address_async(fake, wallet_async):
-    response = await wallet_async.get_new_address(label=fake.word())
-    print(response)
-    return response.get("result")
-
-
-@pytest.fixture
-async def to_address_async(fake, wallet_async):
-    response = await wallet_async.get_new_address(label=fake.word())
-    return response.get("result")
+    wallet = await wallet_async.create_wallet(wallet_name=fake.word())
+    wallet_name = wallet.get("result").get("name")
+    from_address = await wallet_async.get_new_address(
+        label=fake.word(), append_to_url=wallet_name
+    )
+    to_address = await wallet_async.get_new_address(
+        label=fake.word(), append_to_url=wallet_name
+    )
+    from_address = from_address.get("result")
+    to_address = to_address.get("result")
+    return from_address, to_address
 
 
 @pytest.fixture
@@ -58,10 +54,9 @@ async def transaction_async(
     wallet_async,
     raw_transaction_async,
     wallet_created_async,
-    from_address_async,
-    to_address_async,
     generate_to_address_async,
 ):
+    from_address_async, to_address_async = wallet_created_async
     amount = 0.00001
     unspent_txs = await wallet_async.list_unspent()
     inputs = [

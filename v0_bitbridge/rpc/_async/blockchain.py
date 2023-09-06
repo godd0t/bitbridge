@@ -1,4 +1,8 @@
-from utils.constants import GET_BEST_BLOCK_HASH, GET_BLOCK, GET_BLOCKCHAIN_INFO
+from bitbridge.utils.constants import (
+    GET_BEST_BLOCK_HASH,
+    GET_BLOCK,
+    GET_BLOCKCHAIN_INFO,
+)
 
 
 class BlockchainAsync:

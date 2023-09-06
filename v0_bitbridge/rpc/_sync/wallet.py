@@ -1,4 +1,8 @@
-from utils.constants import ABANDON_TRANSACTION, ABORT_RESCAN, ADD_MULTISIG_ADDRESS
+from bitbridge.utils.constants import (
+    ABANDON_TRANSACTION,
+    ABORT_RESCAN,
+    ADD_MULTISIG_ADDRESS,
+)
 
 
 class WalletSync:

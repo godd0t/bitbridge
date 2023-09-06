@@ -5,6 +5,6 @@ import pytest
 def bridge_facade_config():
     return {
         "url": "http://localhost:18443",
-        "username": "test_user",
-        "password": "test_password",
+        "username": "user",
+        "password": "password",
     }

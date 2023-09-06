@@ -1,4 +1,8 @@
-from utils.constants import ABANDON_TRANSACTION, ABORT_RESCAN, ADD_MULTISIG_ADDRESS
+from bitbridge.utils.constants import (
+    ABANDON_TRANSACTION,
+    ABORT_RESCAN,
+    ADD_MULTISIG_ADDRESS,
+)
 
 
 class WalletAsync:
@@ -18,7 +22,7 @@ class WalletAsync:
         return await self._rpc.send_request_async(ABORT_RESCAN)
 
     async def add_multisig_address(
-        self, nrequired: int, keys: list, label="", address_type=None
+        self, nrequired: int, keys: list, label: str = None, address_type: str = None
     ):
         """
         Add a P2SH or P2WSH multisig address to the wallet.

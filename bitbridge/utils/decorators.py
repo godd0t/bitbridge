@@ -4,7 +4,7 @@ from time import sleep as sync_sleep
 from typing import Optional, Callable, Union, Type
 
 from bitbridge.rpc.config import BitBridgeConfig
-from bitbridge.utils.exceptions import ConfigurationError
+from bitbridge.utils.exceptions import ConfigurationError, BaseBitBridgeException
 
 
 def handle_exceptions(
@@ -26,6 +26,7 @@ def handle_exceptions(
                 try:
                     return func(instance, *args, **kwargs)
                 except exceptions as e:
+                    BaseBitBridgeException(e).display()
                     if i == max_retries - 1:
                         raise e
                     if recovery_procedure:
@@ -58,6 +59,7 @@ def async_handle_exceptions(
                 try:
                     return await func(instance, *args, **kwargs)
                 except exceptions as e:
+                    BaseBitBridgeException(e).display()
                     if i == max_retries - 1:
                         raise e
                     if recovery_procedure:

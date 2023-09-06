@@ -28,7 +28,7 @@ jobs:
       - name: Start Testnet Bitcoin Core
         run: |
           docker-compose -f docker/docker-compose-ci.yaml up -d
-          sleep 10  # Wait for Bitcoin Core to start (adjust this as needed)
+          sleep 10
 
       - name: Run tests
         run: pytest

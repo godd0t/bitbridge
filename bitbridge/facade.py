@@ -1,6 +1,8 @@
 import httpx
 
+from bitbridge.rpc.blockchain import BlockchainSync, BlockchainAsync
 from bitbridge.rpc.config import BitBridgeConfig
+from bitbridge.utils.decorators import async_handle_exceptions, handle_exceptions
 
 
 class BaseBitBridgeFacade:
@@ -20,8 +22,9 @@ class BaseBitBridgeFacade:
 class BitBridgeFacade(BaseBitBridgeFacade):
     def __init__(self, config: BitBridgeConfig):
         super().__init__(config)
-        # TODO: Implement
+        self.blockchain = BlockchainSync(self)
 
+    @handle_exceptions(httpx.HTTPError)
     def send_request(self, method: str, params: list | None = None):
         payload = self._get_payload(method, params)
         response = httpx.post(self.config.url, json=payload, auth=self._get_auth())
@@ -32,8 +35,9 @@ class BitBridgeFacade(BaseBitBridgeFacade):
 class AsyncBitBridgeFacade(BaseBitBridgeFacade):
     def __init__(self, config: BitBridgeConfig):
         super().__init__(config)
-        # TODO: Implement
+        self.blockchain = BlockchainAsync(self)
 
+    @async_handle_exceptions(httpx.HTTPError)
     async def send_request_async(self, method: str, params: list | None = None):
         payload = self._get_payload(method, params)
         async with httpx.Client() as client:

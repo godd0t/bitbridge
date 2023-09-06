@@ -22,18 +22,19 @@ def handle_exceptions(
     def decorator(func):
         @wraps(func)
         def wrapper(instance, *args, **kwargs):
-            for i in range(max_retries):
+            retries = 0
+            while retries <= max_retries:
                 try:
                     return func(instance, *args, **kwargs)
                 except exceptions as e:
                     BaseBitBridgeException(e).display()
-                    if i == max_retries - 1:
+                    if retries == max_retries:
                         raise e
                     if recovery_procedure:
                         recovery_procedure(instance, *args, **kwargs)
                     if delay:
                         sync_sleep(delay)
-                    continue
+                retries += 1
 
         return wrapper
 
@@ -55,18 +56,19 @@ def async_handle_exceptions(
     def decorator(func):
         @wraps(func)
         async def wrapper(instance, *args, **kwargs):
-            for i in range(max_retries):
+            retries = 0
+            while retries <= max_retries:
                 try:
                     return await func(instance, *args, **kwargs)
                 except exceptions as e:
                     BaseBitBridgeException(e).display()
-                    if i == max_retries - 1:
+                    if retries == max_retries:
                         raise e
                     if recovery_procedure:
                         await recovery_procedure(instance, *args, **kwargs)
                     if delay:
                         await async_sleep(delay)
-                    continue
+                retries += 1
 
         return wrapper
 

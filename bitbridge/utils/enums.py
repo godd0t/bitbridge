@@ -16,3 +16,8 @@ class RPCGroup(str, Enum):
     RAW_TRANSACTIONS = "raw_transactions"
     UTIL = "util"
     WALLET = "wallet"
+
+
+class Mode(str, Enum):
+    SYNC = "sync"
+    ASYNC = "async"

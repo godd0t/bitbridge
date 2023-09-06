@@ -1,4 +1,4 @@
-.PHONY: help test lint format
+.PHONY: help test lint format up down
 
 .DEFAULT: help
 help:
@@ -8,6 +8,10 @@ help:
 	@echo "       run linter"
 	@echo "make format"
 	@echo "       run formatter"
+	@echo "make up"
+	@echo "       run docker-compose up --build -d"
+	@echo "make down"
+	@echo "       run docker-compose down"
 
 test:
 	@bash ./scripts/test.sh
@@ -17,3 +21,10 @@ lint:
 
 format:
 	@bash ./scripts/format.sh
+
+
+up:
+	@docker compose up --build -d
+
+down:
+	@docker compose down

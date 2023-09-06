@@ -6,9 +6,9 @@ from bitbridge.utils.helpers import BaseSingleton
 
 
 class BitBridgeConfig(BaseSingleton):
-    default_max_retries: int = 3
+    default_max_retries: int = 0
     default_recovery_procedure: Optional[Callable] = None
-    default_delay: Optional[int] = 1
+    default_delay: Optional[int] = 0
     console = Console()
 
     def __init__(

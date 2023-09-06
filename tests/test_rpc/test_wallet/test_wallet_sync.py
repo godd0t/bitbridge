@@ -27,15 +27,10 @@ def util_sync(rpc_delegate_sync):
 
 
 @pytest.fixture
-def wallet_created_sync(fake, wallet_sync):
-    wallet = wallet_sync.create_wallet(wallet_name=fake.word())
-    wallet_name = wallet.get("result").get("name")
-    from_address = wallet_sync.get_new_address(
-        label=fake.word(), append_to_url=wallet_name
-    )
-    to_address = wallet_sync.get_new_address(
-        label=fake.word(), append_to_url=wallet_name
-    )
+def wallet_created_sync(wallet_sync):
+    wallet_sync.create_wallet(wallet_name="test_wallet")
+    from_address = wallet_sync.get_new_address(label="test_from_address")
+    to_address = wallet_sync.get_new_address(label="test_to_address")
 
     from_address = from_address.get("result")
     to_address = to_address.get("result")
@@ -45,7 +40,6 @@ def wallet_created_sync(fake, wallet_sync):
 @pytest.fixture
 def from_address_sync(fake, wallet_sync):
     response = wallet_sync.get_new_address(label=fake.word())
-    print(response)
     return response.get("result")
 
 
@@ -56,9 +50,9 @@ def to_address_sync(fake, wallet_sync):
 
 
 @pytest.fixture
-def generate_to_address_sync(generate_sync, from_address_sync, to_address_sync):
+def generate_to_address_sync(generate_sync, wallet_created_sync):
+    from_address_sync, to_address_sync = wallet_created_sync
     generate_sync.generate_to_address(101, from_address_sync)
-    generate_sync.generate_to_address(101, to_address_sync)
 
 
 @pytest.fixture
@@ -85,7 +79,6 @@ def transaction_sync(
 
     # Sign the raw transaction
     signed_tx = raw_transaction_sync.signraw_transaction_with_wallet(raw_tx["result"])
-
     # Broadcast the transaction to the network
     tx_id = raw_transaction_sync.send_raw_transaction(
         signed_tx["result"]["hex"], maxfeerate=1000

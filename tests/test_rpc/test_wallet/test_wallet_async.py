@@ -27,15 +27,10 @@ def util_async(rpc_delegate_async):
 
 
 @pytest.fixture
-async def wallet_created_async(fake, wallet_async):
-    wallet = await wallet_async.create_wallet(wallet_name=fake.word())
-    wallet_name = wallet.get("result").get("name")
-    from_address = await wallet_async.get_new_address(
-        label=fake.word(), append_to_url=wallet_name
-    )
-    to_address = await wallet_async.get_new_address(
-        label=fake.word(), append_to_url=wallet_name
-    )
+async def wallet_created_async(wallet_async):
+    await wallet_async.create_wallet(wallet_name="test_wallet")
+    from_address = await wallet_async.get_new_address(label="test_from_address")
+    to_address = await wallet_async.get_new_address(label="test_to_address")
     from_address = from_address.get("result")
     to_address = to_address.get("result")
     return from_address, to_address
@@ -46,7 +41,6 @@ async def generate_to_address_async(generate_async, wallet_created_async):
     from_address_async, to_address_async = wallet_created_async
 
     await generate_async.generate_to_address(101, from_address_async)
-    await generate_async.generate_to_address(101, to_address_async)
 
 
 @pytest.fixture
@@ -84,7 +78,13 @@ async def transaction_async(
     return tx_id.get("result")
 
 
-async def test_abandon_transaction(wallet_async, transaction_async):
+async def test_async_abandon_transaction(wallet_async, transaction_async):
     result = await wallet_async.abandon_transaction(transaction_async)
+    assert result, "Expected a non-empty result"
+    assert "result" in result, "Expected 'result' key in the response"
+
+
+async def test_async_abort_rescan(wallet_async):
+    result = await wallet_async.abort_rescan()
     assert result, "Expected a non-empty result"
     assert "result" in result, "Expected 'result' key in the response"

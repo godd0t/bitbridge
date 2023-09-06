@@ -64,12 +64,8 @@ class WalletSync(BaseWallet):
             ],
         )
 
-    def get_new_address(
-        self, label: str = None, address_type: str = None, append_to_url: str = None
-    ):
-        return self.rpc_delegate.send_request(
-            GET_NEW_ADDRESS, [label, address_type], append_to_url=append_to_url
-        )
+    def get_new_address(self, label: str = None, address_type: str = None):
+        return self.rpc_delegate.send_request(GET_NEW_ADDRESS, [label, address_type])
 
     def get_address_info(self, address: str):
         return self.rpc_delegate.send_request(GET_ADDRESS_INFO, [address])
@@ -151,11 +147,9 @@ class WalletAsync(BaseWallet):
             ADD_MULTISIG_ADDRESS, [nrequired, keys, label]
         )
 
-    async def get_new_address(
-        self, label: str = None, address_type: str = None, append_to_url: str = None
-    ):
+    async def get_new_address(self, label: str = None, address_type: str = None):
         return await self.rpc_delegate.send_request_async(
-            GET_NEW_ADDRESS, [label, address_type], append_to_url=append_to_url
+            GET_NEW_ADDRESS, [label, address_type]
         )
 
     async def get_wallet_info(self):
